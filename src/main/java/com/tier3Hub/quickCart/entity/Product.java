@@ -44,9 +44,9 @@ public class Product {
     @Column(name = "special_price")
     private double specialPrice;
 
-//    @ManyToOne
-//    @JoinColumn(name = "category_id")
-//    private Category category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @Column(name = "createdAt")
     private LocalDateTime createdAt;

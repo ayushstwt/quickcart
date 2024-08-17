@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "category")
@@ -29,6 +30,9 @@ public class Category {
 
     @Column(name = "status")
     private boolean status;
+
+    @OneToMany(mappedBy = "category", cascade =  CascadeType.ALL,fetch = FetchType.LAZY )
+    private List<Product> products;
 
     @Column(name = "createdAt")
     private LocalDateTime createdAt;

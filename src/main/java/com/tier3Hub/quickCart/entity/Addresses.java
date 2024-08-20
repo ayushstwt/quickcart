@@ -6,6 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Table(name = "addresses")
 @AllArgsConstructor
@@ -33,4 +37,15 @@ public class Addresses {
 
     @Column(nullable = false)
     private String postalCode;
+
+    @ManyToMany(mappedBy = "addresses")
+    private List<User> users = new ArrayList<>();
+
+    @Column(name = "createdAt")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updatedAt")
+    private LocalDateTime updatedAt;
+
+
 }

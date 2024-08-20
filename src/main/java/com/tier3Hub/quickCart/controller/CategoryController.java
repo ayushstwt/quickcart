@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/categories")
+//@RequestMapping("/api/categories")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
@@ -52,5 +52,10 @@ public class CategoryController {
             @RequestParam(name = "sortOrder", defaultValue = AppConstants.SORT_DIR, required = false) String sortOrder) {
         List<CategoryResponse> categories = categoryService.getCategories(pageNumber, pageSize, sortBy, sortOrder);
         return ResponseHandler.generateResponse("Categories fetched successfully", HttpStatus.FOUND, categories);
+    }
+
+    @GetMapping("/api/public/test")
+    public String test() {
+        return "test";
     }
 }

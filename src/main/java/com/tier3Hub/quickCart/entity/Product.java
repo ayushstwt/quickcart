@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -44,13 +46,18 @@ public class Product {
     @Column(name = "special_price")
     private double specialPrice;
 
-//    @ManyToOne
-//    @JoinColumn(name = "category_id")
-//    private Category category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @OneToMany(mappedBy = "product", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+    private List<CartItem> products = new ArrayList<>();
 
     @Column(name = "createdAt")
     private LocalDateTime createdAt;
 
     @Column(name = "updatedAt")
     private LocalDateTime updatedAt;
+
+
 }

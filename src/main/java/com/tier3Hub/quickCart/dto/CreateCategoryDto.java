@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 public class CreateCategoryDto {
 
     @NotBlank(message = "Category name is required")
-    @Length(min = 3, message = "Category name must be at least 3 characters long")
     private String name;
 
     @NotBlank(message = "Category description is required")

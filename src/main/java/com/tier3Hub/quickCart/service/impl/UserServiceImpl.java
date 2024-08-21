@@ -1,21 +1,14 @@
 package com.tier3Hub.quickCart.service.impl;
 
-import com.tier3Hub.quickCart.dto.AddressDto;
-import com.tier3Hub.quickCart.dto.UserDto;
-import com.tier3Hub.quickCart.dto.UserResponse;
-import com.tier3Hub.quickCart.entity.Addresses;
-import com.tier3Hub.quickCart.entity.Cart;
-import com.tier3Hub.quickCart.entity.Role;
+import com.tier3Hub.quickCart.dto.*;
 import com.tier3Hub.quickCart.entity.User;
 import com.tier3Hub.quickCart.repository.AddressRepository;
 import com.tier3Hub.quickCart.repository.RoleRepository;
 import com.tier3Hub.quickCart.repository.UserRepository;
 import com.tier3Hub.quickCart.security.JWTUtil;
 import com.tier3Hub.quickCart.service.UserService;
-import com.tier3Hub.quickCart.utils.AppConstants;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,17 +35,20 @@ public class UserServiceImpl implements UserService {
     private AddressRepository addressRepository;
 
 
+
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public boolean saveNewUser(User user) {
-        try {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public RegisterResponse saveNewUser(RegisterDto registerDto) {
+        User user = modelMapper.map(registerDto, User.class);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRoles(Arrays.asList("USER"));
-            userRepository.save(user);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+            User save = userRepository.save(user);
+            RegisterResponse successfully = RegisterResponse.builder()
+                    .message("User created successfully")
+                    .userId(save.getUserId()).username(save.getUsername())
+                    .email(save.getEmail()).build();
+            return successfully;
+
     }
 
     @Override

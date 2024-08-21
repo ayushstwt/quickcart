@@ -1,7 +1,6 @@
 package com.tier3Hub.quickCart.service;
 
-import com.tier3Hub.quickCart.dto.UserDto;
-import com.tier3Hub.quickCart.dto.UserResponse;
+import com.tier3Hub.quickCart.dto.*;
 import com.tier3Hub.quickCart.entity.User;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public interface UserService {
 
     String deleteUser(Long userId);
 
-    boolean saveNewUser(User user);
+    RegisterResponse saveNewUser(RegisterDto registerDto);
 
     void saveAdminUser(User user);
 }

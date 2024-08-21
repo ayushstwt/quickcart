@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/api/categories")
+@RequestMapping("/api/categories")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
     @PostMapping("/admin/create")
-    public ResponseEntity<Object> createCategory(@Valid CreateCategoryDto createCategoryDto) {
+    public ResponseEntity<Object> createCategory(@Valid @RequestBody CreateCategoryDto createCategoryDto) {
         CategoryResponse category = categoryService.createCategory(createCategoryDto);
         return ResponseHandler.generateResponse("Category created successfully", HttpStatus.CREATED, category);
     }
 
     @PutMapping("/admin/update")
-    public ResponseEntity<Object> updateCategory(@Valid UpdateCategoryDto updateCategoryDto) {
+    public ResponseEntity<Object> updateCategory(@Valid @RequestBody UpdateCategoryDto updateCategoryDto) {
         CategoryResponse category = categoryService.updateCategory(updateCategoryDto);
         return ResponseHandler.generateResponse("Category updated successfully", HttpStatus.OK, category);
     }

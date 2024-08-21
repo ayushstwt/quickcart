@@ -38,8 +38,8 @@ public class Addresses {
     @Column(nullable = false)
     private String postalCode;
 
-    @ManyToMany(mappedBy = "addresses")
-    private List<User> users = new ArrayList<>();
+//    @ManyToMany(mappedBy = "addresses")
+//    private List<User> users = new ArrayList<>();
 
     @Column(name = "createdAt")
     private LocalDateTime createdAt;

@@ -3,13 +3,16 @@ package com.tier3Hub.quickCart.controller;
 import com.tier3Hub.quickCart.dto.UserDto;
 import com.tier3Hub.quickCart.entity.User;
 import com.tier3Hub.quickCart.exception.UserNotFoundException;
-import com.tier3Hub.quickCart.security.JWTService;
+import com.tier3Hub.quickCart.security.JWTUtil;
+import com.tier3Hub.quickCart.security.UserInfoConfigManager;
 import com.tier3Hub.quickCart.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,13 +23,17 @@ import java.util.Collections;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api")
 public class AuthController {
 
     @Autowired
     private UserService service;
 
     @Autowired
-    private JWTService jwtService;
+    private JWTUtil jwtUtil;
+
+    @Autowired
+    private UserInfoConfigManager userInfoConfigManager;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -34,18 +41,29 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
+
     @PostMapping("/register")
-    public ResponseEntity<Map<String, Object>> registerHandler(@Valid @RequestBody UserDto user) throws UserNotFoundException {
-        String encodedPass = passwordEncoder.encode(user.getPassword());
+    public void signup(@RequestBody User user) {
+        service.saveNewUser(user);
+    }
 
-        user.setPassword(encodedPass);
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody User user) {
+        try{
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+            UserDetails userDetails = userInfoConfigManager.loadUserByUsername(user.getUsername());
+            String jwt = jwtUtil.generateToken(userDetails.getUsername());
+            return new ResponseEntity<>(jwt, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("Incorrect username or password", HttpStatus.BAD_REQUEST);
+        }
+    }
 
-        UserDto userDTO = service.registerUser(user);
-
-        String token = jwtService.generateToken(userDTO.getEmail());
-
-        return new ResponseEntity<Map<String, Object>>(Collections.singletonMap("jwt-token", token),
-                HttpStatus.CREATED);
+    @PostMapping("/registerAdmin")
+    public void signupAdmin(@RequestBody User user) {
+        service.saveAdminUser(user);
     }
 
 

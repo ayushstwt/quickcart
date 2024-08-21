@@ -16,4 +16,8 @@ public interface UserService {
     UserDto updateUser(Long userId, UserDto userDTO);
 
     String deleteUser(Long userId);
+
+    boolean saveNewUser(User user);
+
+    void saveAdminUser(User user);
 }

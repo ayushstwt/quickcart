@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.util.List;
 
 @SpringBootApplication
-public class QuickCartApplication implements CommandLineRunner {
+public class QuickCartApplication {
 
 	@Autowired
 	private RoleRepository roleRepository;
@@ -21,25 +21,4 @@ public class QuickCartApplication implements CommandLineRunner {
 		SpringApplication.run(QuickCartApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		try {
-			Role adminRole = new Role();
-			adminRole.setRoleId(AppConstants.ADMIN_ID);
-			adminRole.setRoleName("ADMIN");
-
-			Role userRole = new Role();
-			userRole.setRoleId(AppConstants.USER_ID);
-			userRole.setRoleName("USER");
-
-			List<Role> roles = List.of(adminRole, userRole);
-
-			List<Role> savedRoles = roleRepository.saveAll(roles);
-
-			savedRoles.forEach(System.out::println);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 }

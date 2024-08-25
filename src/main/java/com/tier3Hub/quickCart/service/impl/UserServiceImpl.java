@@ -1,14 +1,17 @@
 package com.tier3Hub.quickCart.service.impl;
 
 import com.tier3Hub.quickCart.dto.*;
+import com.tier3Hub.quickCart.entity.Cart;
 import com.tier3Hub.quickCart.entity.User;
 import com.tier3Hub.quickCart.repository.AddressRepository;
-import com.tier3Hub.quickCart.repository.RoleRepository;
 import com.tier3Hub.quickCart.repository.UserRepository;
 import com.tier3Hub.quickCart.security.JWTUtil;
 import com.tier3Hub.quickCart.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,9 +32,6 @@ public class UserServiceImpl implements UserService {
     private ModelMapper modelMapper;
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
     private AddressRepository addressRepository;
 
 
@@ -44,7 +44,6 @@ public class UserServiceImpl implements UserService {
             user.setRoles(Arrays.asList("USER"));
             User save = userRepository.save(user);
             RegisterResponse successfully = RegisterResponse.builder()
-                    .message("User created successfully")
                     .userId(save.getUserId()).username(save.getUsername())
                     .email(save.getEmail()).build();
             return successfully;
@@ -52,10 +51,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveAdminUser(User user) {
+    public RegisterResponse saveAdminUser(RegisterDto registerDto) {
+        User user = modelMapper.map(registerDto, User.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Arrays.asList("ADMIN","USER"));
-        userRepository.save(user);
+        User save = userRepository.save(user);
+        RegisterResponse successfully = RegisterResponse.builder()
+                .userId(save.getUserId()).username(save.getUsername())
+                .email(save.getEmail()).build();
+        return successfully;
+    }
+
+    @Override
+    public void updateUser(UserResponse userResponse) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User user = userRepository.findByUsername(userName);
+
     }
 
 
@@ -102,19 +114,21 @@ public class UserServiceImpl implements UserService {
 //        }
 //    }
 
-    @Override
-    public UserDto registerUser(UserDto userDTO) {
-        return null;
-    }
+
 
     @Override
-    public List<UserResponse> getAllUsers(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
-        return List.of();
+    public List<UserDto> getAllUsers(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
+        return null;
     }
 
     @Override
     public UserDto getUserById(Long userId) {
-        return null;
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+        userDto.setAddress(modelMapper.map(user.getAddresses().stream().findFirst().get(), AddressDto.class));
+        CartDTO cartDTO=modelMapper.map(user.getCart(),CartDTO.class);
+        userDto.setCart(cartDTO);
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override

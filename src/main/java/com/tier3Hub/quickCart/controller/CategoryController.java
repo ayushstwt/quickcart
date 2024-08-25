@@ -7,6 +7,7 @@ import com.tier3Hub.quickCart.service.CategoryService;
 import com.tier3Hub.quickCart.utils.AppConstants;
 import com.tier3Hub.quickCart.utils.ResponseHandler;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +17,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
+@Slf4j
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
     @PostMapping("/admin/create")
     public ResponseEntity<Object> createCategory(@Valid @RequestBody CreateCategoryDto createCategoryDto) {
+        log.info("create category controller called");
         CategoryResponse category = categoryService.createCategory(createCategoryDto);
+        log.info("create category controller ended");
         return ResponseHandler.generateResponse("Category created successfully", HttpStatus.CREATED, category);
     }
 

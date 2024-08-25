@@ -1,14 +1,13 @@
 package com.tier3Hub.quickCart.service;
 
 import com.tier3Hub.quickCart.dto.*;
-import com.tier3Hub.quickCart.entity.User;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
 public interface UserService {
-    UserDto registerUser(UserDto userDTO);
 
-    List<UserResponse> getAllUsers(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
+    List<UserDto> getAllUsers(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
 
     UserDto getUserById(Long userId);
 
@@ -18,5 +17,7 @@ public interface UserService {
 
     RegisterResponse saveNewUser(RegisterDto registerDto);
 
-    void saveAdminUser(User user);
+    RegisterResponse saveAdminUser(RegisterDto registerDto);
+
+    void updateUser(UserResponse userResponse);
 }

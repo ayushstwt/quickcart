@@ -63,8 +63,9 @@ public class AuthController {
     }
 
     @PostMapping("/registerAdmin")
-    public void signupAdmin(@RequestBody User user) {
-        service.saveAdminUser(user);
+    public ResponseEntity<Object> signupAdmin(@Valid @RequestBody RegisterDto registerDto) {
+        RegisterResponse registerResponse = service.saveAdminUser(registerDto);
+        return ResponseHandler.generateResponse("Admin registered successfully", HttpStatus.OK, registerResponse);
     }
 
 

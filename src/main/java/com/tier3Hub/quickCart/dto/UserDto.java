@@ -1,6 +1,5 @@
 package com.tier3Hub.quickCart.dto;
 
-import com.tier3Hub.quickCart.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,6 @@ public class UserDto {
     private String mobileNumber;
     private String email;
     private String password;
-    private Set<Role> roles = new HashSet<>();
     private AddressDto address;
     private CartDTO cart;
 }

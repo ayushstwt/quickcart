@@ -6,17 +6,15 @@
 
 The QuickCart E-Commerce platform is a comprehensive solution designed to provide a seamless and secure shopping experience. Key features include:
 
-User Notifications: After registration, users receive an email notification to confirm their account. Additionally, we are actively working on implementing monthly notifications that will be sent to users via email, SMS, or WhatsApp, ensuring they stay informed about updates, promotions, and more.
+- User Notifications: After registration, users receive an email notification to confirm their account. Additionally, we are actively working on implementing monthly notifications that will be sent to users via email, SMS, or WhatsApp, ensuring they stay informed about updates, promotions, and more.
 
-Authentication: The platform employs robust security measures with JWT (JSON Web Token) authentication for user sessions. It also supports Google Authentication, allowing users to sign in with their Google accounts for added convenience and security.
+- Authentication: The platform employs robust security measures with JWT (JSON Web Token) authentication for user sessions. It also supports Google Authentication, allowing users to sign in with their Google accounts for added convenience and security.
 
-Payment Gateway Integration: The system is designed with future-proofing in mind, with plans to integrate a payment gateway to facilitate seamless invoicing and payment processing.
+- Payment Gateway Integration: The system is designed with future-proofing in mind, with plans to integrate a payment gateway to facilitate seamless invoicing and payment processing.
 
-API Documentation: Swagger UI support is integrated into the platform, providing developers with a user-friendly interface to interact with and explore the API, making it easier to understand and implement the platform’s functionalities.
+- API Documentation: Swagger UI support is integrated into the platform, providing developers with a user-friendly interface to interact with and explore the API, making it easier to understand and implement the platform’s functionalities.
 
-Containerization: To ensure scalability and ease of deployment, the entire application is containerized using Docker. This approach allows for consistent environments across development, testing, and production, streamlining the deployment process.
-
-QuickCart is built to deliver speed, security, and user satisfaction, making it an ideal choice for users seeking an efficient and reliable e-commerce platform.
+- Containerization: To ensure scalability and ease of deployment, the entire application is containerized using Docker. This approach allows for consistent environments across development, testing, and production, streamlining the deployment process.
 
 # Features
 ## Admin:-
@@ -27,6 +25,7 @@ QuickCart is built to deliver speed, security, and user satisfaction, making it 
 - Products
 - Price & discount
 - Orders
+
 ## User:-
 - Registration & Login
 - Fetch categories and products based on category
@@ -82,3 +81,4 @@ QuickCart is built to deliver speed, security, and user satisfaction, making it 
 
 
 # Thank You
+QuickCart is built to deliver speed, security, and user satisfaction, making it an ideal choice for users seeking an efficient and reliable e-commerce platform.

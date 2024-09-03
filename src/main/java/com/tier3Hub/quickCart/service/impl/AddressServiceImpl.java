@@ -20,6 +20,12 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressResponse createAddress(CreateAddressDto createAddressDto) {
+        String country = createAddressDto.getCountry();
+        String state = createAddressDto.getState();
+        String city = createAddressDto.getCity();
+        String pincode = createAddressDto.getPostalCode();
+        String street = createAddressDto.getStreet();
+        String buildingName = addressDTO.getBuildingName();
         return null;
     }
 

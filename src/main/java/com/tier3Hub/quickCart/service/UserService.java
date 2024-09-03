@@ -19,5 +19,4 @@ public interface UserService {
 
     RegisterResponse saveAdminUser(RegisterDto registerDto);
 
-    void updateUser(UserResponse userResponse);
 }

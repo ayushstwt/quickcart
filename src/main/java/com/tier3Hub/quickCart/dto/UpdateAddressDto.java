@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class UpdateAddressDto {
 
     @NotBlank(message = "Address id is required")
-    private int id;
+    private Long id;
 
     @NotBlank(message = "Address line 1 is required")
     private String addressLine1;

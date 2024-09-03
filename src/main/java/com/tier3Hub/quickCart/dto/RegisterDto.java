@@ -1,22 +1,23 @@
 package com.tier3Hub.quickCart.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserDto {
-    private Long userId;
+public class RegisterDto {
     private String firstName;
     private String lastName;
-    private String mobileNumber;
+
+    @NotBlank(message = "username is required")
+    private String username;
+
+    @NotBlank(message = "Email is required")
     private String email;
+
+    @NotBlank(message = "Password is required")
     private String password;
-    private AddressDto address;
-    private CartDTO cart;
 }

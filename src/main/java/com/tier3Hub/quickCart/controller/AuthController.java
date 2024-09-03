@@ -1,11 +1,12 @@
 package com.tier3Hub.quickCart.controller;
 
-import com.tier3Hub.quickCart.dto.UserDto;
+import com.tier3Hub.quickCart.dto.*;
 import com.tier3Hub.quickCart.entity.User;
 import com.tier3Hub.quickCart.exception.UserNotFoundException;
 import com.tier3Hub.quickCart.security.JWTUtil;
 import com.tier3Hub.quickCart.security.UserInfoConfigManager;
 import com.tier3Hub.quickCart.service.UserService;
+import com.tier3Hub.quickCart.utils.ResponseHandler;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,29 +42,30 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
-
     @PostMapping("/register")
-    public void signup(@RequestBody User user) {
-        service.saveNewUser(user);
+    public ResponseEntity<Object> signup(@Valid@RequestBody RegisterDto registerDto) {
+        RegisterResponse registerResponse = service.saveNewUser(registerDto);
+        return ResponseHandler.generateResponse("User registered successfully", HttpStatus.OK, registerResponse);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User user) {
+    public ResponseEntity<Object> login(@Valid @RequestBody LoginDto loginDto) {
         try{
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-            UserDetails userDetails = userInfoConfigManager.loadUserByUsername(user.getUsername());
+                    new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
+            UserDetails userDetails = userInfoConfigManager.loadUserByUsername(loginDto.getUsernameOrEmail());
             String jwt = jwtUtil.generateToken(userDetails.getUsername());
-            return new ResponseEntity<>(jwt, HttpStatus.OK);
+            LoginResponse build = LoginResponse.builder().token(jwt).build();
+            return ResponseHandler.generateResponse("User logged in successfully", HttpStatus.OK, build);
         }catch (Exception e){
             return new ResponseEntity<>("Incorrect username or password", HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping("/registerAdmin")
-    public void signupAdmin(@RequestBody User user) {
-        service.saveAdminUser(user);
+    public ResponseEntity<Object> signupAdmin(@Valid @RequestBody RegisterDto registerDto) {
+        RegisterResponse registerResponse = service.saveAdminUser(registerDto);
+        return ResponseHandler.generateResponse("Admin registered successfully", HttpStatus.OK, registerResponse);
     }
 
 

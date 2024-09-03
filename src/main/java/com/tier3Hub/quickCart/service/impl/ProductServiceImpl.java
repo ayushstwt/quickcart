@@ -94,6 +94,7 @@ public class ProductServiceImpl implements ProductService {
             throw new RuntimeException("No product is created till now");
         }
         List<Product> productList = products.getContent();
+
         for (Product product : productList) {
             if (product.getCategory().getId() == categoryId) {
                 productList.add(product);

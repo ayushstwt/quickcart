@@ -192,7 +192,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public String deleteProductFromCart(Long cartId, Long productId) {
+    public String deleteProductFromCart(Long cartId, int productId) {
         Cart cart = cartRepo.findById(cartId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart is not found"));
 
